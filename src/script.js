@@ -17,7 +17,6 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
-
 //Axes Helper
 const axesHelper = new THREE.AxesHelper
 scene.add(axesHelper)
@@ -81,9 +80,12 @@ fontLoader.load (
                 const scale = Math.random()/6
                 oct.scale.set(scale, scale, scale)
                 scene.add(oct)
+                var tl = gsap.timeline( {repeat:-1, repeatDelay: 2, yoyo: true} );
+                console.log(tl)
+                gsap.to(oct.position, { duration: 120*(Math.random()*0.5)*Math.PI, delay: 1, x: 20-(Math.random())*Math.PI/Math.random()*0.5-10*Math.random(), y: 10+(Math.random())*Math.PI*0.06 ,z: 23-(Math.random())*Math.PI*0.06})
+                gsap.to(oct.position, { duration: 120*(Math.random()*0.5)*Math.PI, delay: 1, x: 10-(Math.random())*Math.PI/Math.random()*0.5, y: -(Math.random())*Math.PI*0.06, z: 1-(Math.random())*Math.PI*0.06})
                 
             }
-            
         }
 )
 
@@ -119,12 +121,12 @@ window.addEventListener('resize', () =>
  * Camera
  */
 // Base camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = -1
-camera.position.y = -1,5
-camera.position.z = 3
+const camera = new THREE.PerspectiveCamera(82, sizes.width / sizes.height, 0.2, 100)
+camera.position.x = 0
+camera.position.y = -0.65
+camera.position.z = 4
 scene.add(camera)
-
+console.log(camera)
 // Controls
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
@@ -145,9 +147,8 @@ const clock = new THREE.Clock()
 
 const tick = () =>
 {
-    const elapsedTime = clock.getElapsedTime()
-    // Update objects
-    // textGeometry.rotation.y = 0.1 * elapsedTime
+    // const elapsedTime = clock.getElapsedTime()
+    // octGeometry.rotation.y = 0.1 * elapsedTime
    
 
     // octGeometry.rotation.x = -0.15 * elapsedTime
