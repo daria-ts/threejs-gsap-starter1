@@ -17,14 +17,19 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
+
 //Axes Helper
 const axesHelper = new THREE.AxesHelper
 scene.add(axesHelper)
+axesHelper.visible = false
 /**
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
-matcapTexture = textureLoader.load('/textures/matcaps/matcap-2.jpg')
+const matcapTexture = textureLoader.load('/textures/matcaps/matcap-1.jpg')
+matcapTexture.minFilter = THREE.NearestFilter
+matcapTexture.magFilter = THREE.NearestFilter
+matcapTexture.generateMipmaps = false
 
 
 //Fonts
@@ -38,14 +43,14 @@ fontLoader.load (
                 'fintech design',
                 {
                     font: font,
-                    size: 0.5,
-                    height: 0.1,
-                    curveSegments: 6,
+                    size: 0.6,
+                    height: 0.23,
+                    curveSegments: 8,
                     bevelEnabled: true,
-                    bevelThickness: 0.01,
-                    bevelSize: 0.02, 
-                    bevelOffset: 0,
-                    bevelSegments: 4
+                    bevelThickness: 0.03,
+                    bevelSize: 0.01, 
+                    bevelOffset: -0.002,
+                    bevelSegments: 3
 
                 }
             )
@@ -53,10 +58,32 @@ fontLoader.load (
             textGeometry.computeBoundingBox()
             textGeometry.center()
 
-            const textMaterial = new THREE.MeshMatcapMaterial({matcap: matcapTexture})
-            textMaterial.wireframe = false
-            const text = new THREE.Mesh(textGeometry, textMaterial)
+            const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture})
+            material.wireframe = false
+            const text = new THREE.Mesh(textGeometry, material)
             scene.add(text)
+
+            const octGeometry = new THREE.OctahedronBufferGeometry()
+                console.log(THREE.OctahedronBufferGeometry)
+            
+                
+
+            for(let i = 0; i < 400; i++)
+            {
+                
+                const oct = new THREE.Mesh(octGeometry, material)
+
+                oct.position.x = (Math.random()-0.5)*15*Math.PI
+                oct.position.y = (Math.random()-0.5)*17*Math.PI
+                oct.position.z = (Math.random()-0.5)*12*Math.PI
+                oct.rotation.x = Math.random()*Math.PI
+                oct.rotation.y = Math.random()*Math.PI
+                const scale = Math.random()/6
+                oct.scale.set(scale, scale, scale)
+                scene.add(oct)
+                
+            }
+            
         }
 )
 
@@ -119,6 +146,12 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+    // Update objects
+    // textGeometry.rotation.y = 0.1 * elapsedTime
+   
+
+    // octGeometry.rotation.x = -0.15 * elapsedTime
+   
 
     // Update controls
     controls.update()
