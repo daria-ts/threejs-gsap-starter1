@@ -1,21 +1,25 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import gsap from 'gsap';
+import gsap from 'gsap'
 import * as dat from 'dat.gui'
+
 
 
 /**
  * Base
  */
 // Debug
-const gui = new dat.GUI()
+const gui = new dat.GUI({closed: true, width: 300}) 
+gui.hide()
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
+scene.background = new THREE.Color( 0x2E0655 )
+
 
 //Axes Helper
 const axesHelper = new THREE.AxesHelper
@@ -50,9 +54,13 @@ fontLoader.load (
                     bevelSize: 0.01, 
                     bevelOffset: -0.002,
                     bevelSegments: 3
+                    
 
                 }
+                
             )
+            
+            
 
             textGeometry.computeBoundingBox()
             textGeometry.center()
@@ -62,13 +70,18 @@ fontLoader.load (
             const text = new THREE.Mesh(textGeometry, material)
             gsap.to(text.rotateZ, {duration:100*(Math.random()*0.5), delay:1})
             scene.add(text)
+            gui.add(material, 'wireframe')
+            
+            
+
+            
 
             const octGeometry = new THREE.OctahedronBufferGeometry()
                 console.log(THREE.OctahedronBufferGeometry)
             
                 
 
-            for(let i = 0; i < 400; i++)
+            for(let i = 0; i < 800; i++)
             {
                 
                 const oct = new THREE.Mesh(octGeometry, material)
@@ -83,8 +96,8 @@ fontLoader.load (
                 scene.add(oct)
                 var tl = gsap.timeline( {repeat:-1, repeatDelay: 2, yoyo: true} );
                 console.log(tl)
-                gsap.to(oct.position, { duration: 120*(Math.random()*0.5)*Math.PI, delay: 1, x: 200-(Math.random())*Math.PI/Math.random()*0.5-10*Math.random(), y: Math.sin(50+(Math.random())*Math.PI*0.06) ,z: 30-(Math.random())*Math.PI*0.06})
-                gsap.to(oct.position, { duration: 120*(Math.random()*0.5)*Math.PI, delay: 1, x: Math.cos(10-(Math.random())*Math.PI/Math.random()*0.5), y: -(Math.random())*Math.PI*0.06, z: -(10-(Math.random())*Math.PI*0.36)})
+                gsap.to(oct.position, { duration: 1200*(Math.random()*0.5)*Math.PI, delay: 1, x: 200-(Math.random())*Math.PI/Math.random()*0.5-10*Math.random(), y: Math.sin(50+(Math.random())*Math.PI*0.06) ,z: 30-(Math.random())*Math.PI*0.06})
+                gsap.to(oct.position, { duration: 1200*(Math.random()*0.5)*Math.PI, delay: 1, x: Math.cos(10-(Math.random())*Math.PI/Math.random()*0.5), y: -(Math.random())*Math.PI*0.06, z: -(10-(Math.random())*Math.PI*0.36)})
                 
             }
         }
@@ -149,7 +162,8 @@ controls.enableDamping = true
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas,
+
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
