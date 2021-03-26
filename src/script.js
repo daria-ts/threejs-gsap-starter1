@@ -17,11 +17,14 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
-
+//Axes Helper
+const axesHelper = new THREE.AxesHelper
+scene.add(axesHelper)
 /**
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
+matcapTexture = textureLoader.load('/textures/matcaps/matcap-2.jpg')
 
 
 //Fonts
@@ -37,17 +40,21 @@ fontLoader.load (
                     font: font,
                     size: 0.5,
                     height: 0.1,
-                    curveSegments: 12,
+                    curveSegments: 6,
                     bevelEnabled: true,
                     bevelThickness: 0.01,
-                    bevelSize: 0.02,
+                    bevelSize: 0.02, 
                     bevelOffset: 0,
-                    bevelSegments: 5
+                    bevelSegments: 4
 
                 }
             )
-            const textMaterial = new THREE.MeshBasicMaterial()
-            textMaterial.wireframe = true
+
+            textGeometry.computeBoundingBox()
+            textGeometry.center()
+
+            const textMaterial = new THREE.MeshMatcapMaterial({matcap: matcapTexture})
+            textMaterial.wireframe = false
             const text = new THREE.Mesh(textGeometry, textMaterial)
             scene.add(text)
         }
