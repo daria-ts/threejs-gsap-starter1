@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import gsap from 'gsap';
 import * as dat from 'dat.gui'
 
+
 /**
  * Base
  */
@@ -16,10 +17,23 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
+
 /**
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
+
+
+//Fonts
+
+const fontLoader = new THREE.FontLoader()
+fontLoader.load (
+        '/fonts/Pinnacle_Extra_Bold_Regular.json',
+        () => 
+        {
+            console.log('pinnacle loaded')
+        }
+)
 
 /**
  * Object
